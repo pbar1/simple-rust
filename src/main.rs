@@ -32,8 +32,17 @@ async fn main() {
 }
 
 async fn webserver() -> std::io::Result<()> {
-    LogTracer::init().expect("Unable to setup log tracer!");
+    // Start an (optional) otel prometheus metrics pipeline
+    let metrics_exporter = opentelemetry_prometheus::exporter().init();
+    let request_metrics = actix_web_opentelemetry::RequestMetrics::new(
+        opentelemetry::global::meter("actix_http_tracing"),
+        Some(|req: &actix_web::dev::ServiceRequest| {
+            req.path() == "/metrics" && req.method() == actix_web::http::Method::GET
+        }),
+        Some(metrics_exporter),
+    );
 
+    LogTracer::init().expect("Unable to setup log tracer!");
     let app_name = concat!(env!("CARGO_PKG_NAME"), "-", env!("CARGO_PKG_VERSION")).to_string();
     let (non_blocking_writer, _guard) = tracing_appender::non_blocking(std::io::stdout());
     let bunyan_formatting_layer = BunyanFormattingLayer::new(app_name, non_blocking_writer);
@@ -47,6 +56,7 @@ async fn webserver() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .wrap(TracingLogger)
+            .wrap(request_metrics.clone())
             .route("/", web::get().to(greet))
             .route("/{name}", web::get().to(greet))
     })

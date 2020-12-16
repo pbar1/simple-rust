@@ -262,6 +262,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "actix-web-opentelemetry"
+version = "0.8.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f7c2af09ed5912db416fe4556472c812f5d6b7c8a7785a7929a28ca7e4648b26"
+dependencies = [
+ "actix-http",
+ "actix-web",
+ "futures",
+ "opentelemetry",
+ "opentelemetry-prometheus",
+ "opentelemetry-semantic-conventions",
+ "prometheus",
+ "serde",
+]
+
+[[package]]
 name = "addr2line"
 version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -554,6 +570,15 @@ dependencies = [
  "autocfg",
  "cfg-if 0.1.10",
  "lazy_static",
+]
+
+[[package]]
+name = "dashmap"
+version = "4.0.0-rc6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "308a6703be2d759cb5fb7b80a23547fe73a8d5ebf70d3a4ca7f0ef4c0bfc2265"
+dependencies = [
+ "once_cell",
 ]
 
 [[package]]
@@ -1160,6 +1185,45 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "624a8340c38c1b80fd549087862da4ba43e08858af025b236e509b6649fc13d5"
 
 [[package]]
+name = "opentelemetry"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e260f0ef133e1043b95143f83cfc8f6be023cf4b46a526da0212039b45392679"
+dependencies = [
+ "async-trait",
+ "dashmap",
+ "fnv",
+ "futures",
+ "lazy_static",
+ "percent-encoding",
+ "pin-project 0.4.27",
+ "rand",
+ "regex",
+ "thiserror",
+ "tokio",
+]
+
+[[package]]
+name = "opentelemetry-prometheus"
+version = "0.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e164d9f3a96d6f46852d9e6052edbb7d50282a4f7309e6bb515755fdefaced16"
+dependencies = [
+ "opentelemetry",
+ "prometheus",
+ "protobuf",
+]
+
+[[package]]
+name = "opentelemetry-semantic-conventions"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3251f8e16776c613633602eb9d03753d128901bcaffe81b99b211204c4108798"
+dependencies = [
+ "opentelemetry",
+]
+
+[[package]]
 name = "os_str_bytes"
 version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1304,6 +1368,27 @@ checksum = "1e0704ee1a7e00d7bb417d0770ea303c1bccbabf0ef1667dae92b5967f5f8a71"
 dependencies = [
  "unicode-xid",
 ]
+
+[[package]]
+name = "prometheus"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "30d70cf4412832bcac9cffe27906f4a66e450d323525e977168c70d1b36120ae"
+dependencies = [
+ "cfg-if 0.1.10",
+ "fnv",
+ "lazy_static",
+ "parking_lot",
+ "protobuf",
+ "regex",
+ "thiserror",
+]
+
+[[package]]
+name = "protobuf"
+version = "2.18.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "da78e04bc0e40f36df43ecc6575e4f4b180e8156c4efd73f13d5619479b05696"
 
 [[package]]
 name = "quick-error"
@@ -1539,13 +1624,17 @@ name = "simple-rust"
 version = "0.1.0"
 dependencies = [
  "actix-web",
+ "actix-web-opentelemetry",
  "clap",
+ "opentelemetry",
+ "opentelemetry-prometheus",
  "tracing",
  "tracing-actix-web",
  "tracing-appender",
  "tracing-bunyan-formatter",
  "tracing-futures",
  "tracing-log",
+ "tracing-opentelemetry",
  "tracing-subscriber",
 ]
 
@@ -1895,6 +1984,19 @@ dependencies = [
  "lazy_static",
  "log",
  "tracing-core",
+]
+
+[[package]]
+name = "tracing-opentelemetry"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "08457d22f95dc05ff929afcdc3d57f3a2437f9377765bb6e20ffeb67d72b1719"
+dependencies = [
+ "opentelemetry",
+ "tracing",
+ "tracing-core",
+ "tracing-log",
+ "tracing-subscriber",
 ]
 
 [[package]]
